@@ -1,5 +1,3 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-
-#include "AlkemystGameModeBase.h"
-
+#include "Alkemyst/AlkemystWorldSettings.h"
