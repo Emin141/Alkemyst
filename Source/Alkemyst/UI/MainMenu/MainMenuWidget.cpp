@@ -1,7 +1,7 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "Alkemyst/MainMenuWidget.h"
-#include "Alkemyst/MainMenuHUD.h"
+#include "Alkemyst/UI/MainMenu/MainMenuWidget.h"
+#include "Alkemyst/UI/MainMenu/MainMenuHUD.h"
 #include "Components/Button.h"
 
 void UMainMenuWidget::NativeOnInitialized()
@@ -15,8 +15,8 @@ void UMainMenuWidget::NativeOnInitialized()
 
 void UMainMenuWidget::OnStartButtonClicked()
 {
-	AMainMenuHUD* mainMenuHUD = Cast<AMainMenuHUD>(GetOwningPlayer()->GetHUD());
-	ensure(mainMenuHUD);
+	AMainMenuHUD* hud = Cast<AMainMenuHUD>(GetOwningPlayer()->GetHUD());
+	ensure(hud);
 
-	mainMenuHUD->StartGame();
+	hud->StartGame();
 }

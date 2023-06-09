@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "Alkemyst/MainMenuGameMode.h"
-#include "Alkemyst/AlkemystWorldSettings.h"
+#include "Alkemyst/GameModes/MainMenuGameMode.h"
 #include "Kismet/GameplayStatics.h"
 
 void AMainMenuGameMode::StartGame()

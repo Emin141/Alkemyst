@@ -1,14 +1,14 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
-#include "Alkemyst/MainMenuHUD.h"
-#include "Alkemyst/MainMenuGameMode.h"
-#include "Alkemyst/MainMenuWidget.h"
+#include "Alkemyst/UI/MainMenu/MainMenuHUD.h"
+#include "Alkemyst/GameModes/MainMenuGameMode.h"
+#include "Alkemyst/UI/MainMenu/MainMenuWidget.h"
 
 void AMainMenuHUD::StartGame()
 {
-	if (AMainMenuGameMode* mmGm = Cast<AMainMenuGameMode>(GetWorld()->GetAuthGameMode()))
+	if (AMainMenuGameMode* gameMode = Cast<AMainMenuGameMode>(GetWorld()->GetAuthGameMode()))
 	{
-		mmGm->StartGame();
+		gameMode->StartGame();
 	}
 }
 

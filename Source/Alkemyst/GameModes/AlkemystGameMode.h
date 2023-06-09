@@ -14,5 +14,6 @@ class ALKEMYST_API AAlkemystGameMode : public AGameMode
 	GENERATED_BODY()
 
 public:
-	virtual void BeginPlay() final override;
+	void EndGame();
+
 };
