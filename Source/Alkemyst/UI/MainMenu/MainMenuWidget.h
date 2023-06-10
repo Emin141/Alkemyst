@@ -12,12 +12,18 @@ class ALKEMYST_API UMainMenuWidget : public UUserWidget
 {
 	GENERATED_BODY()
 
+public:
+	void SetUIController(class UMainMenuHUDUIController* value);
+
 private:
+	//Weak reference to UI controller
+	TWeakObjectPtr<UMainMenuHUDUIController> _uiController;
+
 	//UMG editor bindings
 	UPROPERTY(meta=(BindWidget))
 	class UButton* _startGameButton;
 
-	UPROPERTY(meta = (BindWidget))
+	UPROPERTY(meta=(BindWidget))
 	UButton* _endGameButton;
 
 	//UUserWidget overrides

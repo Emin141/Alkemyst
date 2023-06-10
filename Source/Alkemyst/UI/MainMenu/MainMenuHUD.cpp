@@ -1,42 +1,51 @@
 // Showcase project of Lana Medved and Emin Turalic
 
 #include "Alkemyst/UI/MainMenu/MainMenuHUD.h"
-#include "Alkemyst/GameModes/MainMenuGameMode.h"
+#include "Alkemyst/AlkemystPlayerController.h"
+#include "Alkemyst/UI/Controllers/MainMenuHUDUIController.h"
 #include "Alkemyst/UI/MainMenu/MainMenuWidget.h"
-#include "Kismet/KismetSystemLibrary.h"
-
-void AMainMenuHUD::StartGame()
-{
-	PlayerOwner->SetInputMode(FInputModeGameOnly());
-	PlayerOwner->SetShowMouseCursor(false); 
-
-	if (AMainMenuGameMode* gameMode = Cast<AMainMenuGameMode>(GetWorld()->GetAuthGameMode()))
-	{
-		gameMode->StartGame();
-	}
-}
-
-void AMainMenuHUD::QuitGame()
-{
-	UKismetSystemLibrary::QuitGame(this, PlayerOwner, EQuitPreference::Quit, true);
-}
 
 void AMainMenuHUD::BeginPlay()
 {
 	Super::BeginPlay();
 
-	CreateAndShowMainMenuWidget();
+	SetupMainMenuWidget();
 
 	PlayerOwner->SetInputMode(FInputModeUIOnly());
 	PlayerOwner->SetShowMouseCursor(true);
 }
 
-void AMainMenuHUD::CreateAndShowMainMenuWidget()
+void AMainMenuHUD::AddReferencedObjects(UObject* inThis, FReferenceCollector& collector)
+{
+	AMainMenuHUD* mainMenuHUD = Cast<AMainMenuHUD>(inThis);
+
+	collector.AddReferencedObject(mainMenuHUD->_mainMenuHUDUIController, inThis);
+
+	Super::AddReferencedObjects(inThis, collector);
+}
+
+void AMainMenuHUD::SetupMainMenuWidget()
 {
 	ensure(IsValid(_mainMenuWidgetBlueprint));
 
+	//Cache a reference.
 	_mainMenuWidget = CreateWidget<UMainMenuWidget>(GetWorld(), _mainMenuWidgetBlueprint);
-	ensure(_mainMenuWidget != nullptr);
-
+	if (_mainMenuWidget.IsValid() == false)
+	{
+		UE_DEBUG_BREAK();
+		return;
+	}
+		
 	_mainMenuWidget->AddToViewport();
+
+	//Create and assign the UI controller. The reference is held by this class.
+	_mainMenuHUDUIController = NewObject<UMainMenuHUDUIController>(this, UMainMenuHUDUIController::StaticClass());
+	if (_mainMenuHUDUIController == nullptr)
+	{
+		UE_DEBUG_BREAK();
+		return;
+	}
+
+	_mainMenuHUDUIController->SetAlkemystPlayerController(Cast<AAlkemystPlayerController>(PlayerOwner));
+	_mainMenuWidget->SetUIController(_mainMenuHUDUIController);
 }

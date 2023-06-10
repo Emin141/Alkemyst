@@ -1,8 +1,14 @@
 // Showcase project of Lana Medved and Emin Turalic
 
 #include "Alkemyst/UI/MainMenu/MainMenuWidget.h"
+#include "Alkemyst/UI/Controllers/MainMenuHUDUIController.h"
 #include "Alkemyst/UI/MainMenu/MainMenuHUD.h"
 #include "Components/Button.h"
+
+void UMainMenuWidget::SetUIController(class UMainMenuHUDUIController* value)
+{
+	_uiController = value;
+}
 
 void UMainMenuWidget::NativeOnInitialized()
 {
@@ -16,16 +22,16 @@ void UMainMenuWidget::NativeOnInitialized()
 
 void UMainMenuWidget::OnStartGameButtonClicked()
 {
-	AMainMenuHUD* hud = Cast<AMainMenuHUD>(GetOwningPlayer()->GetHUD());
-	ensure(hud);
-
-	hud->StartGame();
+	if (_uiController.IsValid())
+	{
+		_uiController->StartGame();
+	}
 }
 
 void UMainMenuWidget::OnEndGameButtonClicked()
 {
-	AMainMenuHUD* hud = Cast<AMainMenuHUD>(GetOwningPlayer()->GetHUD());
-	ensure(hud);
-
-	hud->QuitGame();
+	if (_uiController.IsValid())
+	{
+		_uiController->QuitGame();
+	}
 }
