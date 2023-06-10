@@ -16,9 +16,10 @@ class ALKEMYST_API AMainMenuGameMode : public AGameMode
 public:
 	void StartGame();
 
+private:
 	/**
-	 * If the settings hold the name of the world to load, this can be extended
-	 * to change the name depending on the save game data.
+	 * If the game mode holds the name of the world to load, this can be extended
+	 * to change the name depending on the save game data when loading saves.
 	 */
 	UPROPERTY(EditAnywhere, Category = "Alkemyst", DisplayName = "Level to load on start game")
 	FName levelToLoadOnStart_;

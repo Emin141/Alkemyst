@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Showcase project of Lana Medved and Emin Turalic
 
 #include "Alkemyst.h"
 #include "Modules/ModuleManager.h"

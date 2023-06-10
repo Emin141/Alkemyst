@@ -14,15 +14,20 @@ class ALKEMYST_API AGameHUD : public AHUD
 	GENERATED_BODY()
 
 public:
-	void EndGame();
+	void QuitGame();
+	void OpenMainMenu();
 
 	//AActor overrides
 	virtual void BeginPlay() final override;
 
 private:
+	//UMG widgets
 	UPROPERTY()
 	class UGameHUDWidget* _gameHUDWidget;
 
 	UPROPERTY(EditDefaultsOnly, Category="Alkemyst", DisplayName="Game HUD widget blueprint")
 	TSubclassOf<UGameHUDWidget> _gameHUDWidgetBlueprint;
+
+	//Functions
+	void CreateAndShowHUDWidget();
 };

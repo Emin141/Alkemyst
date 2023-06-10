@@ -14,6 +14,9 @@ class ALKEMYST_API AAlkemystGameMode : public AGameMode
 	GENERATED_BODY()
 
 public:
-	void EndGame();
+	void OpenMainMenu();
 
+private:
+	UPROPERTY(EditAnywhere, Category = "Alkemyst", DisplayName = "Main menu level")
+	FName mainMenuLevel_;
 };

@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+// Showcase project of Lana Medved and Emin Turalic
 
 #include "Alkemyst/UI/MainMenu/MainMenuWidget.h"
 #include "Alkemyst/UI/MainMenu/MainMenuHUD.h"
@@ -8,15 +8,24 @@ void UMainMenuWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	ensure(_TEST_startButton != nullptr);
+	ensure(_startGameButton != nullptr && _endGameButton != nullptr);
 
-	_TEST_startButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartButtonClicked);
+	_startGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameButtonClicked);
+	_endGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnEndGameButtonClicked);
 }
 
-void UMainMenuWidget::OnStartButtonClicked()
+void UMainMenuWidget::OnStartGameButtonClicked()
 {
 	AMainMenuHUD* hud = Cast<AMainMenuHUD>(GetOwningPlayer()->GetHUD());
 	ensure(hud);
 
 	hud->StartGame();
+}
+
+void UMainMenuWidget::OnEndGameButtonClicked()
+{
+	AMainMenuHUD* hud = Cast<AMainMenuHUD>(GetOwningPlayer()->GetHUD());
+	ensure(hud);
+
+	hud->QuitGame();
 }

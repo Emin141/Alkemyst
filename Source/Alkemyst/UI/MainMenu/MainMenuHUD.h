@@ -15,14 +15,19 @@ class ALKEMYST_API AMainMenuHUD : public AHUD
 
 public:
 	void StartGame();
+	void QuitGame();
 
 	//AActor overrides
 	virtual void BeginPlay() final override;
 
 private:
+	//UMG bindings
 	UPROPERTY()
 	class UMainMenuWidget* _mainMenuWidget;
 
 	UPROPERTY(EditDefaultsOnly, Category="Alkemyst", DisplayName="Main menu widget blueprint")
 	TSubclassOf<UMainMenuWidget> _mainMenuWidgetBlueprint;
+
+	//Functions
+	void CreateAndShowMainMenuWidget();
 };
