@@ -22,6 +22,9 @@ public:
 	void PopDelegateFromEscapeReleased();
 
 private:
+	//AActor overrides
+	virtual void BeginPlay() final override;
+
 	/**
 	 * The escape key is kind of special and can have different actions bound to it
 	 * depending on the context. In order to achieve this, any class that needs to change 

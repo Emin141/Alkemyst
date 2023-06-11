@@ -9,6 +9,14 @@
 void UGameHUDWidget::SetUIController(class UGameHUDUIController* value)
 {
 	_uiController = value;
+
+	//Initial ESC binding.
+	if (_uiController.IsValid())
+	{
+		AAlkemystPlayerController::FKeyEventDelegate openPauseMenuDelegate;
+		openPauseMenuDelegate.BindUObject(this, &UGameHUDWidget::OpenPauseMenu);
+		_uiController->PushDelegeToEscapeReleased(openPauseMenuDelegate);
+	}
 }
 
 void UGameHUDWidget::NativeOnInitialized()
@@ -21,9 +29,6 @@ void UGameHUDWidget::NativeOnInitialized()
 	_resumeGameButton->OnClicked.AddDynamic(this, &UGameHUDWidget::OnResumeGameButtonClicked);
 	_mainMenuButton->OnClicked.AddDynamic(this, &UGameHUDWidget::OnMainMenuButtonClicked);
 	_endGameButton->OnClicked.AddDynamic(this, &UGameHUDWidget::OnEndGameButtonClicked);
-
-	//#TODO: Create the stacked callback key binding here.
-	GetOwningPlayer()->InputComponent->BindKey(EKeys::Escape, IE_Released, this, &UGameHUDWidget::OpenPauseMenu);
 }
 
 void UGameHUDWidget::OpenPauseMenu()
@@ -32,7 +37,15 @@ void UGameHUDWidget::OpenPauseMenu()
 
 	if (_uiController.IsValid())
 	{
-		_uiController->ChangeToUIMode();
+		_uiController->ShowMouseCursor();
+	}
+
+	//Rebind ESC to close the pause menu.
+	if (_uiController.IsValid())
+	{
+		AAlkemystPlayerController::FKeyEventDelegate closePauseMenuDelegate;
+		closePauseMenuDelegate.BindUObject(this, &UGameHUDWidget::ClosePauseMenu);
+		_uiController->PushDelegeToEscapeReleased(closePauseMenuDelegate);
 	}
 }
 
@@ -42,15 +55,21 @@ void UGameHUDWidget::ClosePauseMenu()
 
 	if (_uiController.IsValid())
 	{
-		_uiController->ChangeToNonUIMode();
+		_uiController->ShowMouseCursor(false);
+	}
+
+	//Rebind ESC to open the pause menu.
+	if (_uiController.IsValid())
+	{
+		AAlkemystPlayerController::FKeyEventDelegate openPauseMenuDelegate;
+		openPauseMenuDelegate.BindUObject(this, &UGameHUDWidget::OpenPauseMenu);
+		_uiController->PushDelegeToEscapeReleased(openPauseMenuDelegate);
 	}
 }
 
 void UGameHUDWidget::OnResumeGameButtonClicked()
 {
 	ClosePauseMenu();
-
-	//#TODO Pop the esc button callback
 }
 
 void UGameHUDWidget::OnMainMenuButtonClicked()

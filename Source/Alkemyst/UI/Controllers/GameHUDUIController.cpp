@@ -26,20 +26,36 @@ void UGameHUDUIController::OpenMainMenu()
 	}
 }
 
-void UGameHUDUIController::ChangeToUIMode()
+void UGameHUDUIController::ShowMouseCursor(bool shouldShow /*= true */)
 {
 	if (_alkemystPlayerController.IsValid())
 	{
-		_alkemystPlayerController->SetInputMode(FInputModeUIOnly());
-		_alkemystPlayerController->SetShowMouseCursor(true);
+		if (shouldShow)
+		{
+			_alkemystPlayerController->SetInputMode(FInputModeGameAndUI());
+		}
+		else
+		{
+			_alkemystPlayerController->SetInputMode(FInputModeGameOnly());
+		}
+
+		_alkemystPlayerController->SetIgnoreLookInput(shouldShow);
+		_alkemystPlayerController->SetShowMouseCursor(shouldShow);
 	}
 }
 
-void UGameHUDUIController::ChangeToNonUIMode()
+void UGameHUDUIController::PushDelegeToEscapeReleased(const AAlkemystPlayerController::FKeyEventDelegate& newDelegate)
 {
 	if (_alkemystPlayerController.IsValid())
 	{
-		_alkemystPlayerController->SetInputMode(FInputModeGameOnly());
-		_alkemystPlayerController->SetShowMouseCursor(false);
+		_alkemystPlayerController->PushDelegeToEscapeReleased(newDelegate);
+	}
+}
+
+void UGameHUDUIController::PopDelegateFromEscapeReleased()
+{
+	if (_alkemystPlayerController.IsValid())
+	{
+		_alkemystPlayerController->PopDelegateFromEscapeReleased();
 	}
 }

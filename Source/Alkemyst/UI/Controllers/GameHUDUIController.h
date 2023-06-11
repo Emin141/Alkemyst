@@ -2,6 +2,7 @@
 
 #pragma once
 #include "CoreMinimal.h"
+#include "Alkemyst/AlkemystPlayerController.h"
 #include "GameHUDUIController.generated.h"
 
 /**
@@ -18,8 +19,10 @@ public:
 	void QuitGame();
 	void OpenMainMenu();
 
-	void ChangeToUIMode();
-	void ChangeToNonUIMode();
+	void ShowMouseCursor(bool shouldShow = true);
+
+	void PushDelegeToEscapeReleased(const AAlkemystPlayerController::FKeyEventDelegate& newDelegate);
+	void PopDelegateFromEscapeReleased();
 
 private:
 	TWeakObjectPtr<AAlkemystPlayerController> _alkemystPlayerController;
