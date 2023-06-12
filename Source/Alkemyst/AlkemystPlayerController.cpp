@@ -4,12 +4,12 @@
 
 void AAlkemystPlayerController::PushDelegeToEscapeReleased(const FKeyEventDelegate& keyEventDelegate)
 {
-	_keyEventStack.Push(keyEventDelegate);
+	keyEventStack_.Push(keyEventDelegate);
 }
 
 void AAlkemystPlayerController::PopDelegateFromEscapeReleased()
 {
-	_keyEventStack.Pop();
+	keyEventStack_.Pop();
 }
 
 void AAlkemystPlayerController::BeginPlay()
@@ -21,9 +21,9 @@ void AAlkemystPlayerController::BeginPlay()
 
 void AAlkemystPlayerController::OnEscapeReleased()
 {
-	if (_keyEventStack.Num() > 0)
+	if (keyEventStack_.Num() > 0)
 	{
-		FKeyEventDelegate topDelegate = _keyEventStack.Pop();
+		FKeyEventDelegate topDelegate = keyEventStack_.Pop();
 		topDelegate.ExecuteIfBound();
 	}
 }

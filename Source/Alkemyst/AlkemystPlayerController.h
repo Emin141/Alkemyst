@@ -34,7 +34,7 @@ private:
 	 * then popped from the stack. This will allow for the previous key binding to take 
 	 * place. 
 	 */
-	TArray<FKeyEventDelegate> _keyEventStack;
+	TArray<FKeyEventDelegate> keyEventStack_;
 
 	void OnEscapeReleased();
 
