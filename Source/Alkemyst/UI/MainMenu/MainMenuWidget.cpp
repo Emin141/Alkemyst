@@ -7,31 +7,42 @@
 
 void UMainMenuWidget::SetUIController(class UMainMenuHUDUIController* value)
 {
-	_uiController = value;
+	uiController_ = value;
 }
 
 void UMainMenuWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	ensure(_startGameButton != nullptr && _endGameButton != nullptr);
-
-	_startGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameButtonClicked);
-	_endGameButton->OnClicked.AddDynamic(this, &UMainMenuWidget::OnEndGameButtonClicked);
+	//None of these can be nullptr because they are bound in the editor.
+	newGameButton_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnStartGameButtonClicked);
+	loadGameButton_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnLoadGameButtonClicked);
+	settingsButton_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnSettingsButtonClicked);
+	endGameButton_->OnClicked.AddDynamic(this, &UMainMenuWidget::OnEndGameButtonClicked);
 }
 
 void UMainMenuWidget::OnStartGameButtonClicked()
 {
-	if (_uiController.IsValid())
+	if (uiController_.IsValid())
 	{
-		_uiController->StartGame();
+		uiController_->StartGame();
 	}
+}
+
+void UMainMenuWidget::OnLoadGameButtonClicked()
+{
+	unimplemented();
+}
+
+void UMainMenuWidget::OnSettingsButtonClicked()
+{
+	unimplemented();
 }
 
 void UMainMenuWidget::OnEndGameButtonClicked()
 {
-	if (_uiController.IsValid())
+	if (uiController_.IsValid())
 	{
-		_uiController->QuitGame();
+		uiController_->QuitGame();
 	}
 }

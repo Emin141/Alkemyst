@@ -8,14 +8,14 @@
 
 void UGameHUDWidget::SetUIController(class UGameHUDUIController* value)
 {
-	_uiController = value;
+	uiController_ = value;
 
 	//Initial ESC binding.
-	if (_uiController.IsValid())
+	if (uiController_.IsValid())
 	{
 		AAlkemystPlayerController::FKeyEventDelegate openPauseMenuDelegate;
 		openPauseMenuDelegate.BindUObject(this, &UGameHUDWidget::OpenPauseMenu);
-		_uiController->PushDelegeToEscapeReleased(openPauseMenuDelegate);
+		uiController_->PushDelegeToEscapeReleased(openPauseMenuDelegate);
 	}
 }
 
@@ -23,47 +23,48 @@ void UGameHUDWidget::NativeOnInitialized()
 {
 	Super::NativeOnInitialized();
 
-	ensure(_pauseMenuVerticalBox != nullptr && _resumeGameButton != nullptr &&
-		_mainMenuButton != nullptr && _endGameButton != nullptr);
-
-	_resumeGameButton->OnClicked.AddDynamic(this, &UGameHUDWidget::OnResumeGameButtonClicked);
-	_mainMenuButton->OnClicked.AddDynamic(this, &UGameHUDWidget::OnMainMenuButtonClicked);
-	_endGameButton->OnClicked.AddDynamic(this, &UGameHUDWidget::OnEndGameButtonClicked);
+	//None of these can be nullptr because they are bound in the editor.
+	resumeGameButton_->OnClicked.AddDynamic(this, &UGameHUDWidget::OnResumeGameButtonClicked);
+	saveGameButton_->OnClicked.AddDynamic(this, &UGameHUDWidget::OnSaveGameButtonClicked);
+	loadGameButton_->OnClicked.AddDynamic(this, &UGameHUDWidget::OnLoadGameButtonClicked);
+	settingsButton_->OnClicked.AddDynamic(this, &UGameHUDWidget::OnSettingsButtonClicked);
+	mainMenuButton_->OnClicked.AddDynamic(this, &UGameHUDWidget::OnMainMenuButtonClicked);
+	endGameButton_->OnClicked.AddDynamic(this, &UGameHUDWidget::OnEndGameButtonClicked);
 }
 
 void UGameHUDWidget::OpenPauseMenu()
 {
-	_pauseMenuVerticalBox->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
+	pauseMenuVerticalBox_->SetVisibility(ESlateVisibility::SelfHitTestInvisible);
 
-	if (_uiController.IsValid())
+	if (uiController_.IsValid())
 	{
-		_uiController->ShowMouseCursor();
+		uiController_->ShowMouseCursor();
 	}
 
 	//Rebind ESC to close the pause menu.
-	if (_uiController.IsValid())
+	if (uiController_.IsValid())
 	{
 		AAlkemystPlayerController::FKeyEventDelegate closePauseMenuDelegate;
 		closePauseMenuDelegate.BindUObject(this, &UGameHUDWidget::ClosePauseMenu);
-		_uiController->PushDelegeToEscapeReleased(closePauseMenuDelegate);
+		uiController_->PushDelegeToEscapeReleased(closePauseMenuDelegate);
 	}
 }
 
 void UGameHUDWidget::ClosePauseMenu()
 {
-	_pauseMenuVerticalBox->SetVisibility(ESlateVisibility::Collapsed);
+	pauseMenuVerticalBox_->SetVisibility(ESlateVisibility::Collapsed);
 
-	if (_uiController.IsValid())
+	if (uiController_.IsValid())
 	{
-		_uiController->ShowMouseCursor(false);
+		uiController_->ShowMouseCursor(false);
 	}
 
 	//Rebind ESC to open the pause menu.
-	if (_uiController.IsValid())
+	if (uiController_.IsValid())
 	{
 		AAlkemystPlayerController::FKeyEventDelegate openPauseMenuDelegate;
 		openPauseMenuDelegate.BindUObject(this, &UGameHUDWidget::OpenPauseMenu);
-		_uiController->PushDelegeToEscapeReleased(openPauseMenuDelegate);
+		uiController_->PushDelegeToEscapeReleased(openPauseMenuDelegate);
 	}
 }
 
@@ -72,18 +73,33 @@ void UGameHUDWidget::OnResumeGameButtonClicked()
 	ClosePauseMenu();
 }
 
+void UGameHUDWidget::OnSaveGameButtonClicked()
+{
+	unimplemented();
+}
+
+void UGameHUDWidget::OnLoadGameButtonClicked()
+{
+	unimplemented();
+}
+
+void UGameHUDWidget::OnSettingsButtonClicked()
+{
+	unimplemented();
+}
+
 void UGameHUDWidget::OnMainMenuButtonClicked()
 {
-	if (_uiController.IsValid())
+	if (uiController_.IsValid())
 	{
-		_uiController->OpenMainMenu();
+		uiController_->OpenMainMenu();
 	}
 }
 
 void UGameHUDWidget::OnEndGameButtonClicked()
 {
-	if (_uiController.IsValid())
+	if (uiController_.IsValid())
 	{
-		_uiController->QuitGame();
+		uiController_->QuitGame();
 	}
 }

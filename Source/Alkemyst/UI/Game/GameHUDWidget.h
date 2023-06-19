@@ -4,6 +4,10 @@
 #include "Blueprint/UserWidget.h"
 #include "GameHUDWidget.generated.h"
 
+class UGameHUDUIController;
+class UVerticalBox;
+class UButton;
+
 /**
  * Holds the relevant game level.
  */
@@ -13,24 +17,33 @@ class ALKEMYST_API UGameHUDWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void SetUIController(class UGameHUDUIController* value);
+	void SetUIController(UGameHUDUIController* value);
 
 private:
 	//Weak reference to the UI controller
-	TWeakObjectPtr<UGameHUDUIController> _uiController;
+	TWeakObjectPtr<UGameHUDUIController> uiController_;
 
 	//UMG bindings
 	UPROPERTY(meta=(BindWidget))
-	class UVerticalBox* _pauseMenuVerticalBox;
+	UVerticalBox* pauseMenuVerticalBox_;
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* _resumeGameButton;
+	UButton* resumeGameButton_;
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* _mainMenuButton;
+	UButton* saveGameButton_;
 
 	UPROPERTY(meta = (BindWidget))
-	class UButton* _endGameButton;
+	UButton* loadGameButton_;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* settingsButton_;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* mainMenuButton_;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* endGameButton_;
 
 	//UUserWidget overrides
 	virtual void NativeOnInitialized() final override;
@@ -42,6 +55,15 @@ private:
 	//Callbacks
 	UFUNCTION()
 	void OnResumeGameButtonClicked();
+
+	UFUNCTION()
+	void OnSaveGameButtonClicked();
+
+	UFUNCTION()
+	void OnLoadGameButtonClicked();
+
+	UFUNCTION()
+	void OnSettingsButtonClicked();
 
 	UFUNCTION()
 	void OnMainMenuButtonClicked();

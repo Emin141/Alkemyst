@@ -4,6 +4,9 @@
 #include "Blueprint/UserWidget.h"
 #include "MainMenuWidget.generated.h"
 
+class UMainMenuHUDUIController;
+class UButton;
+
 /**
  * Holds the relevant game level.
  */
@@ -13,18 +16,24 @@ class ALKEMYST_API UMainMenuWidget : public UUserWidget
 	GENERATED_BODY()
 
 public:
-	void SetUIController(class UMainMenuHUDUIController* value);
+	void SetUIController(UMainMenuHUDUIController* value);
 
 private:
 	//Weak reference to UI controller
-	TWeakObjectPtr<UMainMenuHUDUIController> _uiController;
+	TWeakObjectPtr<UMainMenuHUDUIController> uiController_;
 
 	//UMG editor bindings
 	UPROPERTY(meta=(BindWidget))
-	class UButton* _startGameButton;
+	UButton* newGameButton_;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* loadGameButton_;
+
+	UPROPERTY(meta = (BindWidget))
+	UButton* settingsButton_;
 
 	UPROPERTY(meta=(BindWidget))
-	UButton* _endGameButton;
+	UButton* endGameButton_;
 
 	//UUserWidget overrides
 	virtual void NativeOnInitialized() final override;
@@ -32,6 +41,12 @@ private:
 	//Callbacks
 	UFUNCTION()
 	void OnStartGameButtonClicked();
+
+	UFUNCTION()
+	void OnLoadGameButtonClicked();
+
+	UFUNCTION()
+	void OnSettingsButtonClicked();
 
 	UFUNCTION()
 	void OnEndGameButtonClicked();
